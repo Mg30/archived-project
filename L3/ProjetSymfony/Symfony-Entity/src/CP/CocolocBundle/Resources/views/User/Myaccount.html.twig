@@ -1,0 +1,67 @@
+{%extends '@CPCocoloc/Annonce/base.html.twig'%}
+
+{%block title%}
+	{{'Mon compte'|trans}} 
+{%endblock%}
+
+  {%block path %}
+    <li class="active">
+         <a href= "{{path('Myaccount',{'_locale':'fr'}) }}">Français </a>
+    </li>
+    <li class="active"> 
+        <a href="{{path('Myaccount',{'_locale':'en'}) }}"> English </a>
+    </li>
+{%endblock%}
+
+
+  	{%block body%}
+
+
+    {% block stylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
+    {% endblock %}
+    
+    {{ wo_render_breadcrumbs() }}
+
+  	<div class="list-group">
+  <a href="{{path('profile',{"id": app.user.id})}}" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{'Mes informations'|trans}}</h5>
+    </div>
+    <p class="mb-1"> {{'Retrouver ici vos informations personnelles'|trans}} </p>
+  </a>
+  <a href="{{path('fos_user_profile_edit') }}" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{'Modifier mes informations'|trans}}</h5>
+    </div>
+    <p class="mb-1">{{'Modifier vos informations personnelles'|trans}}</p>
+  </a>
+  <a href="{{path('myAnnonce')}}" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{'Mes annonces'|trans}}</h5>
+    </div>
+    <p class="mb-1">{{'Retrouver ici vos annonces'|trans}}</p>
+  </a>
+
+    <a href="{{path('myreservation')}}" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{'Mes reservations'|trans}}</h5>
+    </div>
+    <p class="mb-1">{{'Retrouver ici vos reservations'|trans}}</p>
+  </a>
+
+    <a href="{{path('mytheme')}}" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{'Changer de theme'|trans}} </h5>
+    </div>
+    <p class="mb-1"> {{'Changer le theme'|trans}} </p>
+  </a>
+
+</div>
+
+    {%endblock%}
+    
+    {%block footer%}
+
+    {%endblock%}

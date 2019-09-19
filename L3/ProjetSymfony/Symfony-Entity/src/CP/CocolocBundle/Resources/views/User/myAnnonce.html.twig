@@ -1,0 +1,93 @@
+{%extends '@CPCocoloc/Annonce/base.html.twig'%}
+
+
+{%block title%}
+	{{'Mes annonces'|trans}} 
+{%endblock%}
+
+
+    {% block stylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
+    {% endblock %}
+
+  {%block path %}
+    <li class="active">
+         <a href= "{{path('myAnnonce',{'_locale':'fr'}) }}">Français </a>
+    </li>
+    <li class="active"> 
+        <a href="{{path('myAnnonce',{'_locale':'en'}) }}"> English </a>
+    </li>
+{%endblock%}
+
+ {%block body%}
+ {{ wo_render_breadcrumbs() }}
+ <div class="container">
+    		<div class="row">
+    			<h3>{{ 'Liste des annonces'|trans}} </h3>
+    		</div>
+			<div class="row">
+	
+		    {%for a in Annonce%}
+			<div class="row">
+				<div class="col-lg-8">
+				<div class="list-group">
+  					<a href="{{ path('show',{'id': a.id})}}" class="list-group-item list-group-item-action flex-column align-items-start active">
+    					<div class="d-flex w-100 justify-content-between">
+      						<h5 class="mb-1">{{a.titre}}</h5>
+      							<small>{{a.datePublication|date}} </small>
+    					</div>
+    					<p class = "mb-1"> {{a.categorie}} à {{a.ville}}, {{a.nbPlace}} place(s) à  {{a.prix}}€ </p>
+    					<small> {{a.nbdispo}} place(s) disponible(s) .</small>
+  					</a>
+  				</div>
+  				</div>
+  				<div class="col-lg-4"><img src="{{ asset('uploads/images/' ~ a.image) }}" height="128px" width="150px">
+  				</div>
+  			</div>
+
+  			<div class="row">
+				<div class="col-lg-4">
+				</div>
+				<div class="col-lg-4">
+        {%if a.reservation is not empty%}
+				<h4> {{'Liste des reservations'|trans}} </h4>
+				{%for r in a.reservation%}
+				<div class="list-group">
+  					<div class="list-group-item list-group-item-action flex-column align-items-start ">
+    					<div class="d-flex w-100 justify-content-between">
+      						<h5 class="mb-1">{{'Reservation de'|trans}} {{r.user.username}}</h5> <a href={{path('profile',{'_locale':'fr','id': r.user.id})}}> {{'Voir profil'|trans}}</a>
+    					</div>
+    					<small> {{'le'|trans}} {{r.date|date}} </small>
+  					</div>
+  				</div>
+  				<p>
+          {%if r.statut == 0%}
+					<a href={{ path('deleteResever',{'id': r.id})}} class="btn btn-danger">{{ 'Refuser reservation'|trans}}</a>
+          <a href={{ path('accept',{'id': r.id})}} class="btn btn-success">{{ 'accepter reservation'|trans}}</a>
+          {%endif%}
+				</p>
+				{%endfor%}
+      {%endif%}
+			</div>
+			</div>
+
+        <p>
+          <a href={{ path('deleteAnnonce', {'id': a.id})}} class="btn btn-danger">{{ 'Supprimer annonce '|trans}}</a>
+					<a href={{ path('editAnnonce', {'id': a.id})}} class="btn btn-warning">{{ 'Editer '|trans}}</a>
+          <a href= "{{ path('cloneAnnonce', {'id': a.id})}}"class="btn btn-primary">{{ 'Cloner '|trans}}</a>
+				</p>
+
+			{%endfor%}
+					
+	            <div class="text-center">{{ knp_pagination_render(Annonce) }}</div>
+
+	            <p>
+					<a href={{ path('addAnnonce')}} class="btn btn-success">{{ 'Ajouter'|trans}}</a>
+				</p>
+
+				
+ {%endblock%}
+
+  {%block footer%}
+ {%endblock%}

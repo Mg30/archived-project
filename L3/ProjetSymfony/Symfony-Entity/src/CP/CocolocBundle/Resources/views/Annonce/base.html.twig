@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> {%block title%}  Bienvenue {%endblock%} </title>
+
+
+    {% block stylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+    {% endblock %}
+
+    <style>
+        body{
+            padding-top:70px;
+        }
+    </style>
+  </head>
+
+      <body>
+        <div class="container">
+
+            <nav class="navbar navbar-inverse">
+              <div class="container-fluid">
+                <div class="navbar-header">
+              <a class="navbar-brand" href="#">
+                COCOLOC'
+              </a>
+            </div>
+
+
+          <ul class="nav navbar-nav">
+            <li class="active"> <a href="{{path('accueil')}}">{{'Accueil'|trans}}</a> </li>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <li class="active"> <a href="{{path('addAnnonce')}}">
+            {{'Ajouter une annonce'|trans}}</a> </li>
+            <li class="active"> <a href="{{path('Myaccount')}}">
+            {{'Mon compte'|trans}}</a> </li>
+            {% endif %}
+            <li class ="active"> <a href= "{{path('index')}}" >{{'Voir annonces'|trans}}</a> </li>
+            <li class ="active"> <a href= "{{path('annonce_rss')}}" >{{'RSS'|trans}}</a> </li>
+            {% if is_granted("ROLE_ADMIN") %}
+            <li class ="active"> <a href= "{{path('moderation')}}" >{{'Moderation'|trans}}</a> </li>
+            {%endif%}
+
+
+
+          </ul>
+
+        <ul class ="nav navbar-nav navbar-right">
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+              <li><a href= "{{path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-user"></span>{{'Se deconnecter'|trans}} </a></li>
+
+          {% else %}
+            <li>
+              <a href="{{path('fos_user_security_login')}}"> 
+              <span class="glyphicon glyphicon-user"></span>{{'Se connecter'|trans}} </a> 
+            </li>
+            <li>
+              <a href="{{path('fos_user_registration_register')}}"> 
+              <span class="glyphicon glyphicon-user"></span>{{'Créer un compte'|trans}} </a> 
+            </li>
+        {% endif %}
+
+
+            <li class="dropdown">
+              <a href="#" class ="dropdown-toggle" data-toggle="dropdown" role ="button" aria-haspopup="true" aria-expanded="false">
+               <span class="glyphicon glyphicon-globe"></span>
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              {%block path %}
+              <li class="active">
+                <a href= "{{path('accueil',{'_locale':'fr'}) }}">Français </a>
+              </li>
+              <li class="active"> 
+                <a href="{{path('accueil',{'_locale':'en'}) }}"> English </a>
+              </li>
+              {%endblock%}
+            </ul>
+          </li>
+        </ul>
+        </div>
+      </nav>
+      
+    </div>
+ 
+ <section class="col-lg-12">
+  	{%block body%}
+    
+      
+    {%endblock%}
+  </section>
+
+
+  <footer class="row">
+
+    {%block footer%}
+
+    {%endblock%}
+
+  </footer>
+
+
+  {%block javascripts%}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+  {%endblock%}
+
+
+  </body>
+</html>

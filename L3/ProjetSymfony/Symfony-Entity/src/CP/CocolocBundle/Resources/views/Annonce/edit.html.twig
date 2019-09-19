@@ -1,0 +1,38 @@
+{%extends '@CPCocoloc/Annonce/base.html.twig'%}
+
+{%block title%}
+	{{'Modifier'|trans}} 
+{%endblock%}
+
+  {% block stylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
+ {% endblock %}
+
+{%block path %}
+    <li class="active">
+         <a href= "{{path('editAnnonce',{'_locale':'fr','id': annonce.id}) }}">Français </a>
+    </li>
+    <li class="active"> 
+        <a href="{{path('editAnnonce',{'_locale':'en','id': annonce.id}) }}"> English </a>
+    </li>
+{%endblock%}
+
+
+{%block body%}
+{{ wo_render_breadcrumbs() }}
+
+<h3>{{'Modifier une annonce'|trans}}</h3>
+
+
+<div class="well">
+
+  {{ form(form) }}
+
+</div>
+
+{%endblock%}
+
+    {%block footer%}
+
+    {%endblock%}

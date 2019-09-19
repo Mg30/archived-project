@@ -1,0 +1,113 @@
+{%extends '@CPCocoloc/Annonce/base.html.twig'%}
+
+
+{%block title%}
+	{{'Annonce'|trans}} 
+{%endblock%}
+
+
+  {% block stylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
+  {% endblock %}
+
+  {%block path %}
+    <li class="active">
+         <a href= "{{path('show',{'_locale':'fr','id': Annonce.id}) }}">Français </a>
+    </li>
+    <li class="active"> 
+        <a href="{{path('show',{'_locale':'en','id': Annonce.id}) }}"> English </a>
+    </li>
+{%endblock%}
+
+ {%block body%}
+  {{ wo_render_breadcrumbs() }}
+ <div class="container">
+    		<div class="row">
+    			<h3>{{ Annonce.titre|trans}} </h3>
+    		</div>
+			<div class="row">
+			<img src="{{ asset('uploads/images/' ~ Annonce.image) }}" height="100px" width="250px">
+
+<ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{Annonce.categorie}}
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{Annonce.ville}}
+  </li>
+	<li class="list-group-item d-flex justify-content-between align-items-center">
+    {{'Nombre de places'|trans}}
+    <span class="badge badge-primary badge-pill">{{Annonce.nbPlace}}</span>
+  </li>
+
+  	<li class="list-group-item d-flex justify-content-between align-items-center">
+    {{'Nombre de places disponibles'|trans}}
+    <span class="badge badge-primary badge-pill">{{Annonce.nbdispo}}</span>
+  </li>
+
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{Annonce.datePublication|date}}
+  </li>
+
+
+   <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{'Prix'|trans}}
+    <span class="badge badge-primary badge-pill">{{Annonce.prix}}€</span>
+  </li>
+
+     <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{'Auteur'|trans}}
+     <span class="badge badge-primary badge-pill"> <a href={{path('profile',{'_locale':'fr','id': Annonce.user.id})}}>{{Annonce.user.username}}</a>
+     </span>
+    
+  </li>
+
+
+</ul>
+
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    {% if  app.user.id != Annonce.user.id%}
+        <p>
+          <a href={{ path('addComment', {'id': Annonce.id})}} class="btn btn-success">{{ 'Poser une question'|trans}}</a>
+        </p>
+        <p>
+          <a href={{ path('addreserv', {'id': Annonce.id})}} class="btn btn-success">{{ 'Reserver'|trans}}</a>
+        </p>
+    {%endif%}
+{%endif%}
+
+
+{%for comment in Annonce.commentaires%}
+				<div class="list-group">
+  					<div class="list-group-item list-group-item-action flex-column align-items-start ">
+    					<div class="d-flex w-100 justify-content-between">
+      						<h5 class="mb-1">{{comment.titre}}</h5>
+                  <p> {{comment.contenu}}</p>
+    					</div>
+    					<small> {{comment.user.username}} le {{comment.date|date}} </small>
+  					</div>
+  				</div>
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        {% if  app.user.id != comment.user.id%}
+        <p>
+        <a href={{ path('addComment', {'id': Annonce.id})}} class="btn btn-success">{{ 'Répondre'|trans}}</a>
+        </p>
+        {%else%}
+        <p>
+        <a href={{ path('editcomment', {'id': comment.id})}} class="btn btn-warning">{{ 'Editer'|trans}}</a>
+
+        <a href={{ path('deletecomment', {'id': comment.id})}} class="btn btn-danger">{{ 'Supprimer'|trans}}</a>
+        </p>
+
+
+        {%endif%}
+{%endif%}
+
+  			{%endfor%}    
+
+ {%endblock%}
+
+     {%block footer%}
+
+    {%endblock%}

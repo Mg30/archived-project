@@ -1,0 +1,52 @@
+{%extends '@CPCocoloc/Annonce/base.html.twig'%}
+
+{%block title%}
+	{{'Recherche'|trans}} 
+{%endblock%}
+
+
+ {% block stylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
+ {% endblock %}
+
+
+{%block body%}
+
+<h3> {{'Rechercher une annonce'|trans}} </h3>
+
+ <form action="{{path('search_results')}}"  method="get" >
+  <div class="form-group">
+    <label for="Ville">Ville:</label>
+    <input type="text" class="form-control" id="Ville" name = "Ville">
+  </div>
+
+  <div class="form-group">
+    <label for="Cat"> Categorie </label>
+    <select class="form-control" id="Cat" name = "Cat">
+      <option> Appartement </option>
+      <option> Maison </option>
+    </select>
+  </div>
+   <div class="form-group">
+  	<label for="place">Nombre de places max :</label>
+	<input id="place_max" type="number" name="place_max" value="0">
+	</div>
+	 <div class="form-group">
+  		<label for="place">Nombre de places min :</label>
+		<input id="place_min" type="number" name="place_min" value="0">
+	</div>
+	<div class="form-group">
+  		<label for="place">Prix max :</label>
+		<input id="prix_max" type="number" name="prix_max" value="0">
+	</div>
+
+  <button type="submit" class="btn btn-default"> Rechercher </button>
+</form> 
+
+{%endblock%}
+
+
+{%block footer%}
+
+ {%endblock%}

@@ -1,0 +1,54 @@
+{%extends '@CPCocoloc/Annonce/base.html.twig'%}
+
+
+{%block title%}
+	{{'Annonces'|trans}} 
+{%endblock%}
+
+    {% block stylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
+    {% endblock %}
+
+
+ {%block body%}
+ <div class="container">
+    		<div class="row">
+    			<h3>{{ 'Liste des annonces'|trans}} </h3>
+    		</div>
+							
+			{%for a in Annonce%}
+			<div class="row">
+				<div class="col-lg-8">
+				<div class="list-group">
+  					<a href="{{ path('show',{'id': a.id})}}" class="list-group-item list-group-item-action flex-column align-items-start active">
+    					<div class="d-flex w-100 justify-content-between">
+      						<h5 class="mb-1">{{a.titre}}</h5>
+      							<small>{{a.datePublication|date}} </small>
+    					</div>
+    					<p class = "mb-1"> {{a.categorie}} à {{a.ville}}, {{a.nbPlace}} place(s) à  {{a.prix}}€ </p>
+    					<small> {{a.nbdispo}} place(s) disponible(s) .</small>
+  					</a>
+  				</div>
+  				</div>
+  				<div class="col-lg-4"><img src="{{ asset('uploads/images/' ~ a.image) }}" height="128px" width="150px">
+  				</div>
+  			</div>
+        <p>
+          <a href={{ path('deleteAnnonce', {'id': a.id})}} class="btn btn-danger">{{ 'Supprimer annonce '|trans}}</a>
+        </p>
+        
+  			{%endfor%}
+  				
+  			<div class="row">
+
+	            <div class="text-center">
+              {{ knp_pagination_render(Annonce) }}
+              </div>
+	       </div>
+				
+
+ {%endblock%}
+
+ {%block footer%}
+ {%endblock%}
